@@ -25,14 +25,13 @@ header {
     align-items: flex-start;
     background-color: aquamarine;
 }
-.item {
+.todo, .inprogress, .blocked, .done {
     display: flex;
     width: 10%;
     justify-content: space-around;
     height: 5vh;
     align-items: center;
-    background-color: red;
-    
+    flex-wrap: wrap;
 }
 .imageIcon {
     width: 20px;
@@ -43,4 +42,7 @@ header {
     width: 100px;
     height: 100px;
     background-color: red;
+}
+.inputText {
+
 }
