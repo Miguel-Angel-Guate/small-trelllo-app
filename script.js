@@ -16,12 +16,19 @@ const items = [
     },
     {
         title: "Done",
-        icon: "assets/plus.png",
+        icon: "assets/checkMark.png",
         key: "done"
     }
 ];
 
 const trelloDiv = document.querySelector(".trello");
+
+const addDiv = () => {
+    const divTable = document.createElement("div");
+    divTable.classList.add("table-Div")
+    trelloDiv.appendChild(divTable)
+     return divTable;
+}
 
 
 items.map(item => {
@@ -32,6 +39,7 @@ items.map(item => {
     img.classList.add("imageIcon");
     img.src = item.icon;
     img.alt = item.title;
+    img.addEventListener("click", addDiv.bind())
 
     const title = document.createElement("p");
     title.textContent = item.title;
@@ -41,3 +49,4 @@ items.map(item => {
 
     trelloDiv.appendChild(itemDiv);
 });
+
