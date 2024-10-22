@@ -21,7 +21,9 @@ const items = [
     }
 ];
 
+
 const trelloDiv = document.querySelector(".trello");
+let inputsContent = [];
 
 let itemDiv;
 
@@ -30,21 +32,30 @@ const addInput = (item, itemDiv) => {
     input.setAttribute('type', 'text');
     input.classList.add('inputText');
     let itemDivcc = document.getElementsByClassName(item.key)[0];
+    console.log("🚀 ~ addInput ~ itemDivcc:", itemDivcc)
     itemDiv ? itemDivcc.appendChild(input) : null
     input.focus()
-    input.addEventListener("input", () => storeInput(input))
+    input.addEventListener("keypress", (event) => keyPressToStore(event, input, item.key))
 };
 
+const keyPressToStore = (event, input, item) => {
+    if (event.key === 'Enter') {
+        const dissapiaerInput = document.getElementsByClassName('inputText')[0];
+        storeInput(input, item.key)
+        dissapiaerInput.remove();
+
+    }
+}
+
 const storeInput = (input) => {
-    console.log("🚀 ~ storeInput ~ input:", input.value)
-    
+    inputsContent.push(input.value);
+    localStorage.setItem('inputsContent', JSON.stringify(inputsContent));
+    console.log("🚀 ~ storeInput ~ inputsContent:", inputsContent);
 }
 
 items.map(item => {
     itemDiv = document.createElement("div");
     itemDiv.classList.add(`${item.key}`);
-    console.log("🚀 ~ item:", item)
-
     const img = document.createElement("img");
     img.classList.add("imageIcon");
     img.src = item.icon;
