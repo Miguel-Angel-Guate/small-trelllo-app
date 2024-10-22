@@ -32,11 +32,12 @@ const addInput = (item, itemDiv) => {
     let itemDivcc = document.getElementsByClassName(item.key)[0];
     itemDiv ? itemDivcc.appendChild(input) : null
     input.focus()
-    input.addEventListener("input", () => storeInput(addInput, input))
+    input.addEventListener("input", () => storeInput(input))
 };
 
-const storeInput = (addInput, input) => {
-    console.log(input.value)
+const storeInput = (input) => {
+    console.log("🚀 ~ storeInput ~ input:", input.value)
+    
 }
 
 items.map(item => {
