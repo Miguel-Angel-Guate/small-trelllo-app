@@ -31,8 +31,8 @@ const addInput = (item, itemDiv) => {
     input.classList.add('inputText');
     let itemDivcc = document.getElementsByClassName(item.key)[0];
     itemDiv ? itemDivcc.appendChild(input) : null
-    
-    
+    input.focus()
+    input.addEventListener("input", () => console.log(input.value))
 };
 
 
