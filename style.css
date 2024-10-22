@@ -23,6 +23,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    background-color: aquamarine;
 }
 .item {
     display: flex;
@@ -30,9 +31,16 @@ header {
     justify-content: space-around;
     height: 5vh;
     align-items: center;
+    background-color: red;
     
 }
 .imageIcon {
     width: 20px;
     height: 20px;
+}
+
+.table-Div {
+    width: 100px;
+    height: 100px;
+    background-color: red;
 }
