@@ -23,23 +23,30 @@ const items = [
 
 const trelloDiv = document.querySelector(".trello");
 
-const addDiv = () => {
-    const divTable = document.createElement("div");
-    divTable.classList.add("table-Div")
-    trelloDiv.appendChild(divTable)
-     return divTable;
-}
+let itemDiv;
+
+const addInput = (item, itemDiv) => {
+    const input = document.createElement("input");
+    input.setAttribute('type', 'text');
+    input.classList.add('inputText');
+    let itemDivcc = document.getElementsByClassName(item.key)[0];
+    itemDiv ? itemDivcc.appendChild(input) : null
+    
+    
+};
+
 
 
 items.map(item => {
-    const itemDiv = document.createElement("div");
-    itemDiv.classList.add("item");
+    itemDiv = document.createElement("div");
+    itemDiv.classList.add(`${item.key}`);
+    console.log("🚀 ~ item:", item)
 
     const img = document.createElement("img");
     img.classList.add("imageIcon");
     img.src = item.icon;
     img.alt = item.title;
-    img.addEventListener("click", addDiv.bind())
+    img.addEventListener("click", () => addInput(item, itemDiv))
 
     const title = document.createElement("p");
     title.textContent = item.title;
