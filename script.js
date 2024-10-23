@@ -1,5 +1,4 @@
-const items = [
-    {
+const items = [{
         title: "Todo",
         icon: "assets/plus.png",
         key: "todo"
@@ -23,35 +22,48 @@ const items = [
 
 
 const trelloDiv = document.querySelector(".trello");
-let inputsContent = [];
+
+let inputData = {
+    todo: [],
+    inprogress: [],
+    blocked: [],
+    done: []
+}
+
+
 
 let itemDiv;
+
 
 const addInput = (item, itemDiv) => {
     const input = document.createElement("input");
     input.setAttribute('type', 'text');
     input.classList.add('inputText');
     let itemDivcc = document.getElementsByClassName(item.key)[0];
-    console.log("🚀 ~ addInput ~ itemDivcc:", itemDivcc)
     itemDiv ? itemDivcc.appendChild(input) : null
     input.focus()
     input.addEventListener("keypress", (event) => keyPressToStore(event, input, item.key))
 };
 
+
 const keyPressToStore = (event, input, item) => {
+
     if (event.key === 'Enter') {
         const dissapiaerInput = document.getElementsByClassName('inputText')[0];
-        storeInput(input, item.key)
-        dissapiaerInput.remove();
+        if (inputData[item]) {
+            inputData[item].push(input.value);
+            localStorage.setItem('session', JSON.stringify(inputData));
+            let gettinResultInputData = JSON.parse(localStorage.getItem('session'));
+            console.log("🚀 ~ keyPressToStore ~ gettinResultInputData:", gettinResultInputData)
+            
+        }
 
+        dissapiaerInput.remove();
     }
 }
 
-const storeInput = (input) => {
-    inputsContent.push(input.value);
-    localStorage.setItem('inputsContent', JSON.stringify(inputsContent));
-    console.log("🚀 ~ storeInput ~ inputsContent:", inputsContent);
-}
+
+
 
 items.map(item => {
     itemDiv = document.createElement("div");
@@ -70,4 +82,3 @@ items.map(item => {
 
     trelloDiv.appendChild(itemDiv);
 });
-
