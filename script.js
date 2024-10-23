@@ -45,19 +45,32 @@ const addInput = (item, itemDiv) => {
     input.addEventListener("keypress", (event) => keyPressToStore(event, input, item.key))
 };
 
+const updateInputData = (data, item, inputValue) => {
+    return {
+        ...data,
+        [item]: [...data[item], inputValue]
+    };
+};
+
+const saveToLocalStorage = (key, data) => {
+    localStorage.setItem(key, JSON.stringify(data));
+};
+
+const getFromLocalStorage = (key) => {
+    return JSON.parse(localStorage.getItem(key));
+};
+
+const storeInputData = (item, inputValue) => {
+    const updatedData = updateInputData(inputData, item, inputValue);
+    saveToLocalStorage('session', updatedData);
+    const gettinResultInputData = getFromLocalStorage('session');
+    
+};
 
 const keyPressToStore = (event, input, item) => {
-
     if (event.key === 'Enter') {
         const dissapiaerInput = document.getElementsByClassName('inputText')[0];
-        if (inputData[item]) {
-            inputData[item].push(input.value);
-            localStorage.setItem('session', JSON.stringify(inputData));
-            let gettinResultInputData = JSON.parse(localStorage.getItem('session'));
-            console.log("🚀 ~ keyPressToStore ~ gettinResultInputData:", gettinResultInputData)
-            
-        }
-
+        storeInputData(item, input.value)
         dissapiaerInput.remove();
     }
 }
