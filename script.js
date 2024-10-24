@@ -48,7 +48,7 @@ const addInput = (item, itemDiv) => {
 const updateInputData = (data, item, inputValue) => {
     return {
         ...data,
-        [item]: [...data[item], inputValue]
+        [item]: [...(data[item]), inputValue]
     };
 };
 
@@ -57,23 +57,33 @@ const saveToLocalStorage = (key, data) => {
 };
 
 const getFromLocalStorage = (key) => {
-    return JSON.parse(localStorage.getItem(key));
+    const data = JSON.parse(localStorage.getItem(key));
+    return {
+        ...inputData,
+        ...data
+    };
 };
 
+
+const displayObject = (data) => {
+    console.log("Updated Data:", data);
+};
+
+
 const storeInputData = (item, inputValue) => {
-    const updatedData = updateInputData(inputData, item, inputValue);
+    const currentData = getFromLocalStorage('session');
+    const updatedData = updateInputData(currentData, item, inputValue);
     saveToLocalStorage('session', updatedData);
-    const gettinResultInputData = getFromLocalStorage('session');
-    
+    displayObject(updatedData);
 };
 
 const keyPressToStore = (event, input, item) => {
     if (event.key === 'Enter') {
         const dissapiaerInput = document.getElementsByClassName('inputText')[0];
-        storeInputData(item, input.value)
+        storeInputData(item, input.value);
         dissapiaerInput.remove();
     }
-}
+};
 
 
 
