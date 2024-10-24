@@ -79,6 +79,11 @@ const storeInputData = (item, inputValue) => {
 
 const keyPressToStore = (event, input, item) => {
     if (event.key === 'Enter') {
+        const inputDiv = document.createElement("div")
+        inputDiv.classList.add("input-div")
+        let itemDivcc = document.getElementsByClassName(item)[0];
+        itemDiv ? itemDivcc.appendChild(inputDiv) : null
+
         const dissapiaerInput = document.getElementsByClassName('inputText')[0];
         storeInputData(item, input.value);
         dissapiaerInput.remove();
