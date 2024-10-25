@@ -1,4 +1,5 @@
-const items = [{
+const items = [
+    {
         title: "Todo",
         icon: "assets/plus.png",
         key: "todo"
@@ -65,25 +66,20 @@ const getFromLocalStorage = (key) => {
 };
 
 
-const displayObject = (data) => {
-    console.log("Updated Data:", data);
-};
-
-
 const storeInputData = (item, inputValue) => {
     const currentData = getFromLocalStorage('session');
     const updatedData = updateInputData(currentData, item, inputValue);
     saveToLocalStorage('session', updatedData);
-    displayObject(updatedData);
+    //here we add new entry to the div father according to the item
+    const itemDiv = document.querySelector(`.${item}`);
+    const newEntry = document.createElement("p");
+    console.log("🚀 ~ storeInputData ~ itemDiv:", itemDiv)
+    newEntry.textContent = inputValue;
+    itemDiv.appendChild(newEntry);
 };
 
 const keyPressToStore = (event, input, item) => {
     if (event.key === 'Enter') {
-        const inputDiv = document.createElement("div")
-        inputDiv.classList.add("input-div")
-        let itemDivcc = document.getElementsByClassName(item)[0];
-        itemDiv ? itemDivcc.appendChild(inputDiv) : null
-
         const dissapiaerInput = document.getElementsByClassName('inputText')[0];
         storeInputData(item, input.value);
         dissapiaerInput.remove();
@@ -110,3 +106,24 @@ items.map(item => {
 
     trelloDiv.appendChild(itemDiv);
 });
+
+//here we start to load the first time data from local storage
+
+const loadDataFromLocalStorage = () => {
+    const storedData = getFromLocalStorage('session');
+
+    Object.keys(storedData).forEach((key) => {
+        const sectionDiv = document.getElementsByClassName(key)[0];
+        console.log("🚀 ~ Object.keys ~ sectionDiv:", sectionDiv)
+
+        storedData[key].forEach((itemText) => {
+            const itemElement = document.createElement('p');
+            itemElement.textContent = itemText;
+            sectionDiv.appendChild(itemElement);
+        });
+
+    });
+    
+};
+
+window.addEventListener('load', loadDataFromLocalStorage);
