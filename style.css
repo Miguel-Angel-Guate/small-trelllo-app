@@ -25,14 +25,54 @@ header {
     align-items: flex-start;
     background-color: aquamarine;
 }
-.todo, .inprogress, .blocked, .done {
+.todo{
+    background-color: gray;
     display: flex;
-    width: 10%;
+    width: 15%;
+    justify-content: space-around;
+    height: 10vh;
+    flex-direction: column;
+}
+
+.inprogress {
+    background-color: gray;
+    display: flex;
+    width: 15%;
     justify-content: space-around;
     height: 5vh;
-    align-items: center;
-    flex-wrap: wrap;
+    flex-direction: column;
 }
+
+
+.blocked{
+    background-color: gray;
+    display: flex;
+    width: 15%;
+    justify-content: space-around;
+    height: 5vh;
+    flex-direction: column;
+
+}
+
+.done {
+    background-color: gray;
+    display: flex;
+    width: 15%;
+    justify-content: space-around;
+    height: 5vh;
+    flex-direction: column;
+}
+
+#div-Head{
+    width: 100%;
+    background-color: red;
+    height: 30%;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
 .imageIcon {
     width: 20px;
     height: 20px;
@@ -42,4 +82,15 @@ header {
     width: 100px;
     height: 100px;
     background-color: red;
+}
+
+/* #div-P {
+ width: 100%;
+ height: 80%;
+ background-color: black;
+} */
+
+#item-input {
+ width: 100%;
+ background-color: beige;
 }

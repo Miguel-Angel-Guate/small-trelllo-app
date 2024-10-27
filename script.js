@@ -92,6 +92,8 @@ const keyPressToStore = (event, input, item) => {
 items.map(item => {
     itemDiv = document.createElement("div");
     itemDiv.classList.add(`${item.key}`);
+    const divHead = document.createElement("div")
+    divHead.id = "div-Head"
     const img = document.createElement("img");
     img.classList.add("imageIcon");
     img.src = item.icon;
@@ -101,9 +103,9 @@ items.map(item => {
     const title = document.createElement("p");
     title.textContent = item.title;
 
-    itemDiv.appendChild(title);
-    itemDiv.appendChild(img);
-
+    itemDiv.appendChild(divHead);
+    divHead.appendChild(img);
+    divHead.appendChild(title);
     trelloDiv.appendChild(itemDiv);
 });
 
@@ -118,6 +120,7 @@ const loadDataFromLocalStorage = () => {
 
         storedData[key].forEach((itemText) => {
             const itemElement = document.createElement('p');
+            itemElement.id = "item-input"
             itemElement.textContent = itemText;
             sectionDiv.appendChild(itemElement);
         });
