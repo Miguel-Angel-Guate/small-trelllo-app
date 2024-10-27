@@ -70,12 +70,17 @@ const storeInputData = (item, inputValue) => {
     const currentData = getFromLocalStorage('session');
     const updatedData = updateInputData(currentData, item, inputValue);
     saveToLocalStorage('session', updatedData);
+
     //here we add new entry to the div father according to the item
     const itemDiv = document.querySelector(`.${item}`);
     const newEntry = document.createElement("p");
-    console.log("🚀 ~ storeInputData ~ itemDiv:", itemDiv)
+    const divPTitleContainer = document.createElement("div")
+            divPTitleContainer.classList.add("hello")
+    
+    newEntry.classList.add("inputTextContainer")
     newEntry.textContent = inputValue;
-    itemDiv.appendChild(newEntry);
+    divPTitleContainer?.appendChild(newEntry)
+    itemDiv?.appendChild(divPTitleContainer);
 };
 
 const keyPressToStore = (event, input, item) => {
@@ -116,13 +121,14 @@ const loadDataFromLocalStorage = () => {
 
     Object.keys(storedData).forEach((key) => {
         const sectionDiv = document.getElementsByClassName(key)[0];
-        console.log("🚀 ~ Object.keys ~ sectionDiv:", sectionDiv)
-
         storedData[key].forEach((itemText) => {
+            const divPTitleContainer = document.createElement("div")
+            divPTitleContainer.classList.add("hello")
             const itemElement = document.createElement('p');
-            itemElement.id = "item-input"
+            itemElement.classList.add("inputTextContainer");
             itemElement.textContent = itemText;
-            sectionDiv.appendChild(itemElement);
+            divPTitleContainer.appendChild(itemElement)
+            sectionDiv.appendChild(divPTitleContainer);
         });
 
     });
