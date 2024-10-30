@@ -40,7 +40,7 @@ const addInput = (item, itemDiv) => {
     const input = document.createElement("input");
     input.setAttribute('type', 'text');
     input.classList.add('inputText');
-    let itemDivcc = document.getElementsByClassName(item.key)[0];
+    let itemDivcc = document.getElementById(item.key);
     itemDiv ? itemDivcc.appendChild(input) : null
     input.focus()
     input.addEventListener("keypress", (event) => keyPressToStore(event, input, item.key))
@@ -70,13 +70,17 @@ const storeInputData = (item, inputValue) => {
     const currentData = getFromLocalStorage('session');
     const updatedData = updateInputData(currentData, item, inputValue);
     saveToLocalStorage('session', updatedData);
-
+    const uniqueId = `${item}-${Date.now()}`;
     //here we add new entry to the div father according to the item
-    const itemDiv = document.querySelector(`.${item}`);
+    const itemDiv = document.getElementById(item);
+        itemDiv.setAttribute("ondrop", "drop(event)");
+        itemDiv.setAttribute("ondragover", "allowDrop(event)");
     const newEntry = document.createElement("p");
     const divPTitleContainer = document.createElement("div")
             divPTitleContainer.classList.add("hello")
-    
+            divPTitleContainer.id = uniqueId;
+            divPTitleContainer.setAttribute("draggable", "true");
+            divPTitleContainer.setAttribute("ondragstart", "drag(event)");
     newEntry.classList.add("inputTextContainer")
     newEntry.textContent = inputValue;
     divPTitleContainer?.appendChild(newEntry)
@@ -94,11 +98,11 @@ const keyPressToStore = (event, input, item) => {
 
 
 
-items.map(item => {
+items.forEach(item => {
     itemDiv = document.createElement("div");
-    itemDiv.classList.add(`${item.key}`);
+    itemDiv.id = `${item.key}`;
     const divHead = document.createElement("div")
-    divHead.id = "div-Head"
+    divHead.classList.add("divHead");
     const img = document.createElement("img");
     img.classList.add("imageIcon");
     img.src = item.icon;
@@ -109,8 +113,8 @@ items.map(item => {
     title.textContent = item.title;
 
     itemDiv.appendChild(divHead);
-    divHead.appendChild(img);
     divHead.appendChild(title);
+    divHead.appendChild(img);
     trelloDiv.appendChild(itemDiv);
 });
 
@@ -120,10 +124,16 @@ const loadDataFromLocalStorage = () => {
     const storedData = getFromLocalStorage('session');
 
     Object.keys(storedData).forEach((key) => {
-        const sectionDiv = document.getElementsByClassName(key)[0];
+        const sectionDiv = document.getElementById(key);
+        sectionDiv.setAttribute("ondrop", "drop(event)");
+        sectionDiv.setAttribute("ondragover", "allowDrop(event)");
         storedData[key].forEach((itemText) => {
             const divPTitleContainer = document.createElement("div")
             divPTitleContainer.classList.add("hello")
+            const uniqueId = `${key}-${Date.now()}`;
+            divPTitleContainer.id = uniqueId;
+            divPTitleContainer.setAttribute("draggable", "true");
+            divPTitleContainer.setAttribute("ondragstart", "drag(event)");
             const itemElement = document.createElement('p');
             itemElement.classList.add("inputTextContainer");
             itemElement.textContent = itemText;
@@ -136,3 +146,17 @@ const loadDataFromLocalStorage = () => {
 };
 
 window.addEventListener('load', loadDataFromLocalStorage);
+
+function allowDrop(ev) {
+    ev.preventDefault();
+  }
+  
+  function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+  }
+  
+  function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+  }
