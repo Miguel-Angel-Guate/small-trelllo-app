@@ -1,5 +1,4 @@
-const items = [
-    {
+const items = [{
         title: "Todo",
         icon: "assets/plus.png",
         key: "todo"
@@ -68,23 +67,19 @@ const getFromLocalStorage = (key) => {
 
 const storeInputData = (item, inputValue) => {
     const currentData = getFromLocalStorage('session');
-    const updatedData = updateInputData(currentData, item, inputValue);
-    saveToLocalStorage('session', updatedData);
     const uniqueId = `${item}-${Date.now()}`;
-    //here we add new entry to the div father according to the item
-    const itemDiv = document.getElementById(item);
-        itemDiv.setAttribute("ondrop", "drop(event)");
-        itemDiv.setAttribute("ondragover", "allowDrop(event)");
-    const newEntry = document.createElement("p");
-    const divPTitleContainer = document.createElement("div")
-            divPTitleContainer.classList.add("hello")
-            divPTitleContainer.id = uniqueId;
-            divPTitleContainer.setAttribute("draggable", "true");
-            divPTitleContainer.setAttribute("ondragstart", "drag(event)");
-    newEntry.classList.add("inputTextContainer")
-    newEntry.textContent = inputValue;
-    divPTitleContainer?.appendChild(newEntry)
-    itemDiv?.appendChild(divPTitleContainer);
+    const taskData = {
+        id: uniqueId,
+        text: inputValue
+    };
+
+    const updatedData = {
+        ...currentData,
+        [item]: [...(currentData[item] || []), taskData]
+    };
+
+    saveToLocalStorage('session', updatedData);
+    loadDataFromLocalStorage();
 };
 
 const keyPressToStore = (event, input, item) => {
@@ -92,6 +87,7 @@ const keyPressToStore = (event, input, item) => {
         const dissapiaerInput = document.getElementsByClassName('inputText')[0];
         storeInputData(item, input.value);
         dissapiaerInput.remove();
+
     }
 };
 
@@ -123,6 +119,13 @@ items.forEach(item => {
 const loadDataFromLocalStorage = () => {
     const storedData = getFromLocalStorage('session');
 
+    //here we remove all the previous data from the dom
+Object.keys(storedData).forEach((key) => {
+        const sectionDiv = document.getElementById(key);
+        const inputDivs = sectionDiv.querySelectorAll(".hello");
+        inputDivs.forEach(div => div.remove());
+    });
+    // here we add the new data to the dom every new entry
     Object.keys(storedData).forEach((key) => {
         const sectionDiv = document.getElementById(key);
         sectionDiv.setAttribute("ondrop", "drop(event)");
@@ -130,33 +133,32 @@ const loadDataFromLocalStorage = () => {
         storedData[key].forEach((itemText) => {
             const divPTitleContainer = document.createElement("div")
             divPTitleContainer.classList.add("hello")
-            const uniqueId = `${key}-${Date.now()}`;
-            divPTitleContainer.id = uniqueId;
+            divPTitleContainer.id = itemText.id;
             divPTitleContainer.setAttribute("draggable", "true");
             divPTitleContainer.setAttribute("ondragstart", "drag(event)");
             const itemElement = document.createElement('p');
             itemElement.classList.add("inputTextContainer");
-            itemElement.textContent = itemText;
+            itemElement.textContent = itemText.text;
             divPTitleContainer.appendChild(itemElement)
             sectionDiv.appendChild(divPTitleContainer);
         });
 
     });
-    
+
 };
 
 window.addEventListener('load', loadDataFromLocalStorage);
 
 function allowDrop(ev) {
     ev.preventDefault();
-  }
-  
-  function drag(ev) {
+}
+
+function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
-  }
-  
-  function drop(ev) {
+}
+
+function drop(ev) {
     ev.preventDefault();
-    var data = ev.dataTransfer.getData("text");
+    const data = ev.dataTransfer.getData("text");
     ev.target.appendChild(document.getElementById(data));
-  }
+}
