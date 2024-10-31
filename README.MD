@@ -1,6 +1,6 @@
 # Trello-Style Task Manager
 
-This project was created by Miguel-Angel-Teletor is a Trello-inspired task management application built entirely with JavaScript, HTML, and CSS. Users can create tasks and move them through various stages, such as "Todo," "In Progress," "Blocked," and "Done," by dragging and dropping items. This project demonstrates how to build a clean and functional UI without using frameworks.
+This project was created by Miguel-Angel-Teletor, SilviaTeletorGuate, Roni-teletor, RogerJosue  a Trello-inspired task management application built entirely with JavaScript, HTML, and CSS. Users can create tasks and move them through various stages, such as "Todo," "In Progress," "Blocked," and "Done," by dragging and dropping items. This project demonstrates how to build a clean and functional UI without using frameworks.
 
 ## Homepage Screenshot
 Here's how our Trello app looks:
